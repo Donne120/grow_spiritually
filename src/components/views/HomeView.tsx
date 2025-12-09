@@ -44,13 +44,9 @@ export const HomeView = ({
     <div className="min-h-screen pb-24">
       <Header />
 
-      <div className="px-4 space-y-6 -mt-4">
+      <div className="px-4 space-y-6 -mt-2">
         {/* Upcoming Meeting */}
         <section className="animate-fade-in">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xl">📅</span>
-            <h2 className="font-display text-lg font-bold text-foreground">Upcoming Meeting</h2>
-          </div>
           <UpcomingMeeting />
         </section>
 
