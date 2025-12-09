@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator</title>
+  <style>
+    body { font-family: system-ui; padding: 20px; background: #f5f5f5; }
+    .icon { margin: 10px; display: inline-block; }
+    canvas { border: 1px solid #ddd; border-radius: 20%; }
+    h1 { color: #1e40af; }
+    .instructions { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🙏 CYSMF Icon Generator</h1>
+  <div class="instructions">
+    <p><strong>Instructions:</strong> Right-click on each icon and "Save image as..." to download the PNG files.</p>
+    <p>Save them to: <code>public/icons/icon-{size}x{size}.png</code></p>
+  </div>
+  <div id="icons"></div>
+  
+  <script>
+    const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+    const container = document.getElementById('icons');
+    
+    sizes.forEach(size => {
+      const div = document.createElement('div');
+      div.className = 'icon';
+      div.innerHTML = '<p>icon-' + size + 'x' + size + '.png</p>';
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#1e40af');
+      gradient.addColorStop(1, '#3b82f6');
+      
+      // Rounded rectangle
+      const radius = size * 0.2;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Cross - vertical bar
+      ctx.fillStyle = 'white';
+      const vx = size/2 - size*0.06;
+      const vy = size/2 - size*0.3;
+      const vw = size*0.12;
+      const vh = size*0.5;
+      roundRect(ctx, vx, vy, vw, vh, size*0.03);
+      
+      // Cross - horizontal bar
+      const hx = size/2 - size*0.2;
+      const hy = size/2 - size*0.22;
+      const hw = size*0.4;
+      const hh = size*0.12;
+      roundRect(ctx, hx, hy, hw, hh, size*0.03);
+      
+      // Praying hands text
+      ctx.font = (size*0.22) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('🙏', size/2, size*0.82);
+      
+      // Sparkle
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.arc(size*0.78, size*0.22, size*0.04, 0, Math.PI*2);
+      ctx.fill();
+      
+      div.appendChild(canvas);
+      container.appendChild(div);
+    });
+    
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      ctx.fill();
+    }
+  </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import { HomeView } from '@/components/views/HomeView';
 import { TasksView } from '@/components/views/TasksView';
 import { ReportsView } from '@/components/views/ReportsView';
 import { SettingsView } from '@/components/views/SettingsView';
+import { InstallPrompt } from '@/components/InstallPrompt';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -39,10 +40,22 @@ const Index = () => {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center animate-pulse">
-          <div className="text-4xl mb-4">🙏</div>
-          <p className="text-muted-foreground">Loading your ministry data...</p>
+      <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse-slow" />
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-accent/5 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+        </div>
+        
+        <div className="relative text-center">
+          <div className="relative">
+            <div className="text-6xl mb-6 animate-float">🙏</div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full border-2 border-primary/20 animate-ping" />
+            </div>
+          </div>
+          <p className="text-lg font-display font-medium text-foreground">Preparing your ministry</p>
+          <p className="text-sm text-muted-foreground mt-1">Loading your faithful work...</p>
         </div>
       </div>
     );
@@ -86,8 +99,17 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {renderView()}
+    <div className="min-h-screen bg-background relative">
+      {/* Subtle background pattern */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-primary/3 to-transparent rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-gradient-to-tr from-accent/3 to-transparent rounded-full blur-3xl" />
+      </div>
+      
+      <div className="relative">
+        {renderView()}
+      </div>
+      <InstallPrompt />
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );

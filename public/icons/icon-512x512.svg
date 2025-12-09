@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af"/>
+      <stop offset="100%" style="stop-color:#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="102.4" fill="url(#bg)"/>
+  
+  <!-- Cross symbol -->
+  <g transform="translate(256, 256)">
+    <!-- Vertical bar -->
+    <rect x="-30.72" y="-153.6" width="61.44" height="256" rx="15.36" fill="white"/>
+    <!-- Horizontal bar -->
+    <rect x="-102.4" y="-112.64" width="204.8" height="61.44" rx="15.36" fill="white"/>
+  </g>
+  
+  <!-- Praying hands emoji style -->
+  <g transform="translate(256, 368.64)">
+    <text font-size="128" text-anchor="middle" fill="url(#accent)">🙏</text>
+  </g>
+  
+  <!-- Small sparkle -->
+  <circle cx="399.36" cy="112.64" r="20.48" fill="#fbbf24"/>
+  <circle cx="435.2" cy="76.8" r="10.24" fill="#fbbf24" opacity="0.7"/>
+</svg>

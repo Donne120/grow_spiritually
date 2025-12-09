@@ -23,11 +23,15 @@ export const TaskCard = ({
   return (
     <div
       className={cn(
-        'glass-card rounded-xl p-4 transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in',
+        'relative glass-card rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer animate-fade-in overflow-hidden',
         task.isActive && 'ring-2 ring-primary/50 glow-primary'
       )}
       onClick={onClick}
     >
+      {/* Active task indicator gradient */}
+      {task.isActive && (
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-success/5 pointer-events-none" />
+      )}
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           {/* Category Badge */}

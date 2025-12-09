@@ -99,18 +99,28 @@ export const HomeView = ({
 
         {/* Empty State */}
         {todayTasks.length === 0 && activeTasks.length === 0 && (
-          <div className="text-center py-12 animate-fade-in">
-            <div className="text-6xl mb-4">🙏</div>
-            <h3 className="font-display text-xl font-semibold mb-2">
-              Start Your Ministry Day
-            </h3>
-            <p className="text-muted-foreground mb-6 max-w-xs mx-auto">
-              Track your evangelism, prayer time, Bible study, and more
-            </p>
-            <Button variant="hero" onClick={() => setIsCreateSheetOpen(true)}>
-              <Plus className="h-5 w-5" />
-              Create First Task
-            </Button>
+          <div className="relative text-center py-16 animate-fade-in overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-10">
+              <div className="w-64 h-64 rounded-full bg-gradient-to-br from-primary via-accent to-primary animate-pulse-slow" />
+            </div>
+            <div className="absolute top-8 left-1/4 w-2 h-2 rounded-full bg-accent animate-float" style={{ animationDelay: '0s' }} />
+            <div className="absolute top-16 right-1/4 w-1.5 h-1.5 rounded-full bg-primary animate-float" style={{ animationDelay: '1s' }} />
+            <div className="absolute bottom-12 left-1/3 w-2.5 h-2.5 rounded-full bg-success animate-float" style={{ animationDelay: '2s' }} />
+            
+            <div className="relative">
+              <div className="text-7xl mb-6 animate-float">🙏</div>
+              <h3 className="font-display text-2xl font-bold mb-3 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Start Your Ministry Day
+              </h3>
+              <p className="text-muted-foreground mb-8 max-w-sm mx-auto leading-relaxed">
+                Track your evangelism, prayer time, Bible study, and watch how God moves through your faithful service
+              </p>
+              <Button variant="hero" onClick={() => setIsCreateSheetOpen(true)} className="group">
+                <Plus className="h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
+                Create First Task
+              </Button>
+            </div>
           </div>
         )}
       </div>
