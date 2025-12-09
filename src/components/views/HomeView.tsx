@@ -44,19 +44,29 @@ export const HomeView = ({
     <div className="min-h-screen pb-24">
       <Header />
 
-      <div className="px-4 space-y-6">
+      <div className="px-4 space-y-6 -mt-4">
         {/* Upcoming Meeting */}
         <section className="animate-fade-in">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xl">📅</span>
+            <h2 className="font-display text-lg font-bold text-foreground">Upcoming Meeting</h2>
+          </div>
           <UpcomingMeeting />
         </section>
 
         {/* Active Tasks */}
         {activeTasks.length > 0 && (
           <section className="animate-fade-in">
-            <h2 className="font-display text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-              Active Now
-            </h2>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="relative">
+                <span className="w-3 h-3 rounded-full bg-emerald-500 animate-ping absolute"></span>
+                <span className="w-3 h-3 rounded-full bg-emerald-500 relative block"></span>
+              </div>
+              <h2 className="font-display text-lg font-bold text-foreground">Active Now</h2>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 text-xs font-bold">
+                {activeTasks.length}
+              </span>
+            </div>
             <div className="space-y-3">
               {activeTasks.map((task) => (
                 <TaskCard
@@ -76,14 +86,23 @@ export const HomeView = ({
 
         {/* Today's Summary */}
         <section className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <h2 className="font-display text-lg font-semibold mb-3">Today's Summary</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xl">📊</span>
+            <h2 className="font-display text-lg font-bold text-foreground">Today's Summary</h2>
+          </div>
           <DailySummaryCard summary={todaySummary} />
         </section>
 
         {/* Today's Tasks */}
         {todayTasks.filter(t => !t.isActive).length > 0 && (
           <section className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <h2 className="font-display text-lg font-semibold mb-3">Today's Tasks</h2>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">✅</span>
+              <h2 className="font-display text-lg font-bold text-foreground">Today's Tasks</h2>
+              <span className="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-xs font-bold">
+                {todayTasks.filter(t => !t.isActive).length}
+              </span>
+            </div>
             <div className="space-y-3">
               {todayTasks
                 .filter(t => !t.isActive)
@@ -103,31 +122,72 @@ export const HomeView = ({
           </section>
         )}
 
-        {/* Empty State */}
+        {/* Empty State - Beautiful Card */}
         {todayTasks.length === 0 && activeTasks.length === 0 && (
-          <div className="relative text-center py-16 animate-fade-in overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-10">
-              <div className="w-64 h-64 rounded-full bg-gradient-to-br from-primary via-accent to-primary animate-pulse-slow" />
+          <section className="animate-fade-in">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">🚀</span>
+              <h2 className="font-display text-lg font-bold text-foreground">Get Started</h2>
             </div>
-            <div className="absolute top-8 left-1/4 w-2 h-2 rounded-full bg-accent animate-float" style={{ animationDelay: '0s' }} />
-            <div className="absolute top-16 right-1/4 w-1.5 h-1.5 rounded-full bg-primary animate-float" style={{ animationDelay: '1s' }} />
-            <div className="absolute bottom-12 left-1/3 w-2.5 h-2.5 rounded-full bg-success animate-float" style={{ animationDelay: '2s' }} />
             
-            <div className="relative">
-              <div className="text-7xl mb-6 animate-float">🙏</div>
-              <h3 className="font-display text-2xl font-bold mb-3 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                Start Your Ministry Day
-              </h3>
-              <p className="text-muted-foreground mb-8 max-w-sm mx-auto leading-relaxed">
-                Track your evangelism, prayer time, Bible study, and watch how God moves through your faithful service
-              </p>
-              <Button variant="hero" onClick={() => setIsCreateSheetOpen(true)} className="group">
-                <Plus className="h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
-                Create First Task
-              </Button>
+            <div className="relative rounded-3xl overflow-hidden">
+              {/* Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500" />
+              
+              {/* Pattern overlay */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-4 left-4 text-4xl animate-float">✨</div>
+                <div className="absolute top-8 right-8 text-3xl animate-float" style={{ animationDelay: '0.5s' }}>🌟</div>
+                <div className="absolute bottom-8 left-8 text-3xl animate-float" style={{ animationDelay: '1s' }}>💫</div>
+                <div className="absolute bottom-12 right-12 text-2xl animate-float" style={{ animationDelay: '1.5s' }}>⭐</div>
+              </div>
+              
+              {/* Blur circles */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+              
+              {/* Content */}
+              <div className="relative px-6 py-10 text-center">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-2xl border border-white/30">
+                  <span className="text-4xl">🙏</span>
+                </div>
+                
+                <h3 className="font-display text-2xl font-bold text-white mb-3 drop-shadow-lg">
+                  Start Your Ministry Day
+                </h3>
+                
+                <p className="text-white/80 mb-8 max-w-xs mx-auto leading-relaxed">
+                  Track your evangelism, prayer time, Bible study, and watch how God moves through your faithful service
+                </p>
+                
+                <Button 
+                  onClick={() => setIsCreateSheetOpen(true)} 
+                  className="bg-white text-purple-600 hover:bg-white/90 font-bold px-8 py-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 group"
+                >
+                  <Plus className="h-5 w-5 mr-2 group-hover:rotate-90 transition-transform duration-300" />
+                  Create First Task
+                </Button>
+              </div>
             </div>
-          </div>
+          </section>
+        )}
+
+        {/* Quick Stats Row */}
+        {(todayTasks.length > 0 || activeTasks.length > 0) && (
+          <section className="animate-fade-in grid grid-cols-3 gap-3" style={{ animationDelay: '0.3s' }}>
+            <div className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-2xl p-4 text-center border border-blue-200/50 dark:border-blue-500/20">
+              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{todayTasks.length}</p>
+              <p className="text-xs text-muted-foreground font-medium">Today</p>
+            </div>
+            <div className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 rounded-2xl p-4 text-center border border-emerald-200/50 dark:border-emerald-500/20">
+              <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{activeTasks.length}</p>
+              <p className="text-xs text-muted-foreground font-medium">Active</p>
+            </div>
+            <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-2xl p-4 text-center border border-amber-200/50 dark:border-amber-500/20">
+              <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">{tasks.length}</p>
+              <p className="text-xs text-muted-foreground font-medium">Total</p>
+            </div>
+          </section>
         )}
       </div>
 
