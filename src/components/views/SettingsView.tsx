@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { Trash2, Download, Heart, Church } from 'lucide-react';
+import { Trash2, Download, Heart, Church, Users } from 'lucide-react';
 import { toast } from 'sonner';
+import { MeetingSchedule } from '@/components/UpcomingMeeting';
 
 interface SettingsViewProps {
   onClearAllData: () => void;
@@ -59,6 +60,15 @@ export const SettingsView = ({ onClearAllData, tasksCount }: SettingsViewProps) 
             Track your ministry activities, evangelism efforts, prayer time, and spiritual growth. 
             This app helps you steward your time for the Lord.
           </p>
+        </div>
+
+        {/* Community Card */}
+        <div className="bg-card rounded-xl p-5 border border-border">
+          <div className="flex items-center gap-2 mb-4">
+            <Users className="h-5 w-5 text-primary" />
+            <h3 className="font-display font-semibold">Community & Meetings</h3>
+          </div>
+          <MeetingSchedule />
         </div>
 
         {/* Stats Card */}

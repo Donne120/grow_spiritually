@@ -5,6 +5,7 @@ import { TaskCard } from '@/components/TaskCard';
 import { CreateTaskSheet } from '@/components/CreateTaskSheet';
 import { TaskDetailSheet } from '@/components/TaskDetailSheet';
 import { DailySummaryCard } from '@/components/DailySummaryCard';
+import { UpcomingMeeting } from '@/components/UpcomingMeeting';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { getDailySummary } from '@/lib/taskUtils';
@@ -44,6 +45,11 @@ export const HomeView = ({
       <Header />
 
       <div className="px-4 space-y-6">
+        {/* Upcoming Meeting */}
+        <section className="animate-fade-in">
+          <UpcomingMeeting />
+        </section>
+
         {/* Active Tasks */}
         {activeTasks.length > 0 && (
           <section className="animate-fade-in">
