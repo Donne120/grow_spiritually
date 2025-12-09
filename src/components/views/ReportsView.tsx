@@ -8,11 +8,12 @@ import { cn } from '@/lib/utils';
 
 interface ReportsViewProps {
   tasks: Task[];
+  onUpdateTask?: (taskId: string, updates: Partial<Task>) => void;
 }
 
 type ViewType = 'daily' | 'weekly';
 
-export const ReportsView = ({ tasks }: ReportsViewProps) => {
+export const ReportsView = ({ tasks, onUpdateTask }: ReportsViewProps) => {
   const [viewType, setViewType] = useState<ViewType>('daily');
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -188,24 +189,61 @@ export const ReportsView = ({ tasks }: ReportsViewProps) => {
             <h3 className="font-display font-semibold mb-4 flex items-center gap-2">
               <span>📢</span>
               Evangelism Impact
+              <span className="text-xs text-muted-foreground font-normal ml-auto">Tap to add +1</span>
             </h3>
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-primary/5 rounded-xl p-4 text-center">
-                <p className="text-3xl font-bold text-primary">{evangelismTotals.tractsShared}</p>
+              <button 
+                onClick={() => {
+                  const activeTask = evangelismTasks.find(t => t.isActive) || evangelismTasks[0];
+                  if (activeTask && onUpdateTask) {
+                    const current = activeTask.evangelismDetails || { tractsShared: 0, peoplePrayed: 0, repentances: 0, invitations: 0, location: '' };
+                    onUpdateTask(activeTask.id, { evangelismDetails: { ...current, tractsShared: current.tractsShared + 1 } });
+                  }
+                }}
+                className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-xl p-4 text-center border border-blue-200/50 hover:scale-105 active:scale-95 transition-transform"
+              >
+                <p className="text-3xl font-bold text-blue-600">{evangelismTotals.tractsShared}</p>
                 <p className="text-xs text-muted-foreground mt-1">Tracts Shared</p>
-              </div>
-              <div className="bg-accent/10 rounded-xl p-4 text-center">
-                <p className="text-3xl font-bold text-accent">{evangelismTotals.peoplePrayed}</p>
-                <p className="text-xs text-muted-foreground mt-1">People Reached</p>
-              </div>
-              <div className="bg-success/10 rounded-xl p-4 text-center">
-                <p className="text-3xl font-bold text-success">{evangelismTotals.repentances}</p>
+              </button>
+              <button 
+                onClick={() => {
+                  const activeTask = evangelismTasks.find(t => t.isActive) || evangelismTasks[0];
+                  if (activeTask && onUpdateTask) {
+                    const current = activeTask.evangelismDetails || { tractsShared: 0, peoplePrayed: 0, repentances: 0, invitations: 0, location: '' };
+                    onUpdateTask(activeTask.id, { evangelismDetails: { ...current, peoplePrayed: current.peoplePrayed + 1 } });
+                  }
+                }}
+                className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-xl p-4 text-center border border-amber-200/50 hover:scale-105 active:scale-95 transition-transform"
+              >
+                <p className="text-3xl font-bold text-amber-600">{evangelismTotals.peoplePrayed}</p>
+                <p className="text-xs text-muted-foreground mt-1">People Preached To</p>
+              </button>
+              <button 
+                onClick={() => {
+                  const activeTask = evangelismTasks.find(t => t.isActive) || evangelismTasks[0];
+                  if (activeTask && onUpdateTask) {
+                    const current = activeTask.evangelismDetails || { tractsShared: 0, peoplePrayed: 0, repentances: 0, invitations: 0, location: '' };
+                    onUpdateTask(activeTask.id, { evangelismDetails: { ...current, repentances: current.repentances + 1 } });
+                  }
+                }}
+                className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 rounded-xl p-4 text-center border border-emerald-200/50 hover:scale-105 active:scale-95 transition-transform"
+              >
+                <p className="text-3xl font-bold text-emerald-600">{evangelismTotals.repentances}</p>
                 <p className="text-xs text-muted-foreground mt-1">Souls Won</p>
-              </div>
-              <div className="bg-secondary rounded-xl p-4 text-center">
-                <p className="text-3xl font-bold">{evangelismTotals.invitations}</p>
+              </button>
+              <button 
+                onClick={() => {
+                  const activeTask = evangelismTasks.find(t => t.isActive) || evangelismTasks[0];
+                  if (activeTask && onUpdateTask) {
+                    const current = activeTask.evangelismDetails || { tractsShared: 0, peoplePrayed: 0, repentances: 0, invitations: 0, location: '' };
+                    onUpdateTask(activeTask.id, { evangelismDetails: { ...current, invitations: current.invitations + 1 } });
+                  }
+                }}
+                className="bg-gradient-to-br from-purple-500/10 to-violet-500/10 rounded-xl p-4 text-center border border-purple-200/50 hover:scale-105 active:scale-95 transition-transform"
+              >
+                <p className="text-3xl font-bold text-purple-600">{evangelismTotals.invitations}</p>
                 <p className="text-xs text-muted-foreground mt-1">Invitations</p>
-              </div>
+              </button>
             </div>
           </div>
         )}
@@ -216,11 +254,21 @@ export const ReportsView = ({ tasks }: ReportsViewProps) => {
             <h3 className="font-display font-semibold mb-4 flex items-center gap-2">
               <span>📖</span>
               Bible Study Progress
+              <span className="text-xs text-muted-foreground font-normal ml-auto">Tap to add +1</span>
             </h3>
-            <div className="bg-success/10 rounded-xl p-6 text-center">
-              <p className="text-5xl font-bold text-success">{bibleStudyTotals.chaptersRead}</p>
+            <button 
+              onClick={() => {
+                const activeTask = bibleStudyTasks.find(t => t.isActive) || bibleStudyTasks[0];
+                if (activeTask && onUpdateTask) {
+                  const current = activeTask.bibleStudyDetails || { chaptersRead: 0, book: '', notes: '' };
+                  onUpdateTask(activeTask.id, { bibleStudyDetails: { ...current, chaptersRead: current.chaptersRead + 1 } });
+                }
+              }}
+              className="w-full bg-gradient-to-br from-emerald-500/10 to-green-500/10 rounded-xl p-6 text-center border border-emerald-200/50 hover:scale-[1.02] active:scale-[0.98] transition-transform"
+            >
+              <p className="text-5xl font-bold text-emerald-600">{bibleStudyTotals.chaptersRead}</p>
               <p className="text-sm text-muted-foreground mt-2">Chapters Read</p>
-            </div>
+            </button>
           </div>
         )}
 

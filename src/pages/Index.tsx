@@ -13,6 +13,7 @@ const Index = () => {
     tasks,
     isLoaded,
     createTask,
+    updateTask,
     deleteTask,
     startTimer,
     pauseTimer,
@@ -73,6 +74,7 @@ const Index = () => {
             onStartTimer={startTimer}
             onPauseTimer={pauseTimer}
             onDeleteTask={deleteTask}
+            onUpdateTask={updateTask}
           />
         );
       case 'tasks':
@@ -85,7 +87,7 @@ const Index = () => {
           />
         );
       case 'reports':
-        return <ReportsView tasks={tasks} />;
+        return <ReportsView tasks={tasks} onUpdateTask={updateTask} />;
       case 'settings':
         return (
           <SettingsView

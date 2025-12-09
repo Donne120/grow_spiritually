@@ -18,6 +18,7 @@ interface HomeViewProps {
   onStartTimer: (taskId: string) => void;
   onPauseTimer: (taskId: string) => void;
   onDeleteTask: (taskId: string) => void;
+  onUpdateTask: (taskId: string, updates: Partial<Task>) => void;
 }
 
 export const HomeView = ({
@@ -28,6 +29,7 @@ export const HomeView = ({
   onStartTimer,
   onPauseTimer,
   onDeleteTask,
+  onUpdateTask,
 }: HomeViewProps) => {
   const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -70,6 +72,7 @@ export const HomeView = ({
                   task={task}
                   onStart={() => onStartTimer(task.id)}
                   onPause={() => onPauseTimer(task.id)}
+                  onUpdateTask={(updates) => onUpdateTask(task.id, updates)}
                   onClick={() => {
                     setSelectedTask(task);
                     setIsDetailSheetOpen(true);
@@ -108,6 +111,7 @@ export const HomeView = ({
                     task={task}
                     onStart={() => onStartTimer(task.id)}
                     onPause={() => onPauseTimer(task.id)}
+                    onUpdateTask={(updates) => onUpdateTask(task.id, updates)}
                     onClick={() => {
                       setSelectedTask(task);
                       setIsDetailSheetOpen(true);
