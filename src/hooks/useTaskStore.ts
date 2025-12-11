@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Task, TaskSession, TaskCategory } from '@/types/task';
+import { Task, TaskSession, TaskCategory, SubCategoryTime } from '@/types/task';
 import { generateId, calculateTotalTime } from '@/lib/taskUtils';
 
 const STORAGE_KEY = 'cysmf_ministry_tasks';
@@ -104,7 +104,27 @@ export const useTaskStore = () => {
           startTime: task.currentSessionStart,
           endTime,
           duration,
+          subCategory: task.currentSubCategory,
         };
+
+        // Update sub-category breakdown
+        let subCategoryBreakdown = [...(task.subCategoryBreakdown || [])];
+        if (task.currentSubCategory) {
+          const existingIndex = subCategoryBreakdown.findIndex(
+            s => s.subCategory === task.currentSubCategory
+          );
+          if (existingIndex >= 0) {
+            subCategoryBreakdown[existingIndex] = {
+              ...subCategoryBreakdown[existingIndex],
+              duration: subCategoryBreakdown[existingIndex].duration + duration
+            };
+          } else {
+            subCategoryBreakdown.push({
+              subCategory: task.currentSubCategory,
+              duration
+            });
+          }
+        }
 
         return {
           ...task,
@@ -112,6 +132,7 @@ export const useTaskStore = () => {
           currentSessionStart: undefined,
           sessions: [...task.sessions, newSession],
           totalTime: task.totalTime + duration,
+          subCategoryBreakdown,
           updatedAt: new Date(),
         };
       }
@@ -145,6 +166,85 @@ export const useTaskStore = () => {
     });
   }, [tasks]);
 
+  // Change sub-category on an active task (saves current progress and switches)
+  const changeSubCategory = useCallback((taskId: string, newSubCategory: string) => {
+    setTasks(prev => prev.map(task => {
+      if (task.id === taskId) {
+        // If task is active, save the current session time to the old sub-category
+        if (task.isActive && task.currentSessionStart) {
+          const now = new Date();
+          const duration = Math.floor(
+            (now.getTime() - new Date(task.currentSessionStart).getTime()) / 1000
+          );
+
+          // Only save if there's actual time spent
+          if (duration > 0 && task.currentSubCategory) {
+            let subCategoryBreakdown = [...(task.subCategoryBreakdown || [])];
+            const existingIndex = subCategoryBreakdown.findIndex(
+              s => s.subCategory === task.currentSubCategory
+            );
+            if (existingIndex >= 0) {
+              subCategoryBreakdown[existingIndex] = {
+                ...subCategoryBreakdown[existingIndex],
+                duration: subCategoryBreakdown[existingIndex].duration + duration
+              };
+            } else {
+              subCategoryBreakdown.push({
+                subCategory: task.currentSubCategory,
+                duration
+              });
+            }
+
+            // Create session for the old sub-category
+            const newSession: TaskSession = {
+              id: generateId(),
+              startTime: task.currentSessionStart,
+              endTime: now,
+              duration,
+              subCategory: task.currentSubCategory,
+            };
+
+            return {
+              ...task,
+              currentSubCategory: newSubCategory,
+              currentSessionStart: now, // Reset timer for new sub-category
+              sessions: [...task.sessions, newSession],
+              totalTime: task.totalTime + duration,
+              subCategoryBreakdown,
+              updatedAt: new Date(),
+            };
+          }
+        }
+
+        // Just change the sub-category if not active or no time spent
+        return {
+          ...task,
+          currentSubCategory: newSubCategory,
+          currentSessionStart: task.isActive ? new Date() : task.currentSessionStart,
+          updatedAt: new Date(),
+        };
+      }
+      return task;
+    }));
+  }, []);
+
+  // Add a custom sub-category to a task
+  const addCustomSubCategory = useCallback((taskId: string, subCategory: string) => {
+    setTasks(prev => prev.map(task => {
+      if (task.id === taskId) {
+        const customSubCategories = task.customSubCategories || [];
+        if (!customSubCategories.includes(subCategory)) {
+          return {
+            ...task,
+            customSubCategories: [...customSubCategories, subCategory],
+            updatedAt: new Date(),
+          };
+        }
+      }
+      return task;
+    }));
+  }, []);
+
   return {
     tasks,
     isLoaded,
@@ -157,5 +257,7 @@ export const useTaskStore = () => {
     getTodayTasks,
     getTasksByCategory,
     getTasksByDateRange,
+    changeSubCategory,
+    addCustomSubCategory,
   };
 };

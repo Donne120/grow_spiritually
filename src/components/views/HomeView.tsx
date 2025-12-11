@@ -19,6 +19,8 @@ interface HomeViewProps {
   onPauseTimer: (taskId: string) => void;
   onDeleteTask: (taskId: string) => void;
   onUpdateTask: (taskId: string, updates: Partial<Task>) => void;
+  onChangeSubCategory: (taskId: string, subCategory: string) => void;
+  onAddCustomSubCategory: (taskId: string, subCategory: string) => void;
 }
 
 export const HomeView = ({
@@ -30,6 +32,8 @@ export const HomeView = ({
   onPauseTimer,
   onDeleteTask,
   onUpdateTask,
+  onChangeSubCategory,
+  onAddCustomSubCategory,
 }: HomeViewProps) => {
   const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -73,6 +77,8 @@ export const HomeView = ({
                   onStart={() => onStartTimer(task.id)}
                   onPause={() => onPauseTimer(task.id)}
                   onUpdateTask={(updates) => onUpdateTask(task.id, updates)}
+                  onChangeSubCategory={(subCat) => onChangeSubCategory(task.id, subCat)}
+                  onAddCustomSubCategory={(subCat) => onAddCustomSubCategory(task.id, subCat)}
                   onClick={() => {
                     setSelectedTask(task);
                     setIsDetailSheetOpen(true);
@@ -112,6 +118,8 @@ export const HomeView = ({
                     onStart={() => onStartTimer(task.id)}
                     onPause={() => onPauseTimer(task.id)}
                     onUpdateTask={(updates) => onUpdateTask(task.id, updates)}
+                    onChangeSubCategory={(subCat) => onChangeSubCategory(task.id, subCat)}
+                    onAddCustomSubCategory={(subCat) => onAddCustomSubCategory(task.id, subCat)}
                     onClick={() => {
                       setSelectedTask(task);
                       setIsDetailSheetOpen(true);

@@ -19,6 +19,8 @@ const Index = () => {
     pauseTimer,
     getActiveTasks,
     getTodayTasks,
+    changeSubCategory,
+    addCustomSubCategory,
   } = useTaskStore();
 
   const [activeTasks, setActiveTasks] = useState(getActiveTasks());
@@ -75,6 +77,8 @@ const Index = () => {
             onPauseTimer={pauseTimer}
             onDeleteTask={deleteTask}
             onUpdateTask={updateTask}
+            onChangeSubCategory={changeSubCategory}
+            onAddCustomSubCategory={addCustomSubCategory}
           />
         );
       case 'tasks':

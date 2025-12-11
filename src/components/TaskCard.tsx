@@ -1,5 +1,6 @@
 import { Task } from '@/types/task';
 import { Timer } from '@/components/Timer';
+import { SubCategorySelector, SubCategoryBreakdown } from '@/components/SubCategorySelector';
 import { getCategoryLabel, getCategoryIcon, getCategoryColor, formatTimeCompact } from '@/lib/taskUtils';
 import { cn } from '@/lib/utils';
 import { MapPin, Clock, ChevronRight, Plus, Minus } from 'lucide-react';
@@ -11,6 +12,8 @@ interface TaskCardProps {
   onPause: () => void;
   onClick?: () => void;
   onUpdateTask?: (updates: Partial<Task>) => void;
+  onChangeSubCategory?: (subCategory: string) => void;
+  onAddCustomSubCategory?: (subCategory: string) => void;
   compact?: boolean;
 }
 
@@ -67,6 +70,8 @@ export const TaskCard = ({
   onPause,
   onClick,
   onUpdateTask,
+  onChangeSubCategory,
+  onAddCustomSubCategory,
   compact = false,
 }: TaskCardProps) => {
   
@@ -151,6 +156,22 @@ export const TaskCard = ({
               </div>
             )}
           </div>
+
+          {/* Sub-Category Selector (only when active) */}
+          {task.isActive && onChangeSubCategory && (
+            <SubCategorySelector
+              category={task.category}
+              currentSubCategory={task.currentSubCategory}
+              customSubCategories={task.customSubCategories}
+              onSelect={onChangeSubCategory}
+              onAddCustom={onAddCustomSubCategory || (() => {})}
+            />
+          )}
+
+          {/* Sub-Category Breakdown (when not active and has breakdown) */}
+          {!task.isActive && task.subCategoryBreakdown && task.subCategoryBreakdown.length > 0 && (
+            <SubCategoryBreakdown breakdown={task.subCategoryBreakdown} />
+          )}
 
           {/* Live Counters for Active Evangelism Tasks */}
           {task.category === 'evangelism' && task.isActive && onUpdateTask && (
